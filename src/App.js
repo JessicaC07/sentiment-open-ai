@@ -6,6 +6,8 @@ import ResponseDisplay from './components/ResponseDisplay';
 
 function App() {
 
+  console.log(apiKey)
+
   const[promptText, setPromptText] = useState('');
   const[responses, setResponses] = useState([]);
 
