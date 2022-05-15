@@ -11,12 +11,13 @@ function App() {
   const[promptText, setPromptText] = useState('');
   const[responses, setResponses] = useState([]);
 
-  function submit() {
-    sendToAi(promptText);
+  function submit(buttonClicked) {
+    sendToAi(promptText, buttonClicked);
     setPromptText('');
   }
 
-  function sendToAi(text) {
+  function sendToAi(text, buttonClicked) {
+    buttonClicked.disabled = true;
     const data = {
       prompt: `Decide whether a sentence's sentiment is positive, neutral, or negative.
 
@@ -38,7 +39,8 @@ function App() {
       body: JSON.stringify(data),
     })
     .then(response => response.json())
-    .then(data => {      
+    .then(data => {  
+      buttonClicked.disabled = false;    
       setResponses([{
         promptText: text,
         response: data.choices[0].text,
@@ -46,7 +48,9 @@ function App() {
       }, ...responses])
     })
     .catch((error) => {
-      alert('Error: ' + error);
+      console.log(error);
+      buttonClicked.disabled = false;
+      alert("Error: Couldn't get a response from Open AI.");
     });
   }
 
@@ -55,10 +59,10 @@ function App() {
       <h1>Jessica's Sentiment AI</h1>
       <label>Enter a Sentence</label>
       <textarea value={promptText} onChange={(e) => setPromptText(e.target.value)}></textarea>
-      <button onClick={submit}>Submit</button>
+      <button onClick={(e) => submit(e.target)}>Submit</button>
       <h2>Try out some emojis!</h2>
-      <span onClick={() => sendToAi('😃')}>😃</span>
-      <span onClick={() => sendToAi('😢')}>😢</span>
+      <button onClick={(e) => sendToAi('😃', e.target)}>😃</button>
+      <button onClick={(e) => sendToAi('😢', e.target)}>😢</button>
       <div>
           {/* (moviesToDisplay !== false) && > no need as start with [] */}
           {
