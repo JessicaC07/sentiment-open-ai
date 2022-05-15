@@ -1,12 +1,10 @@
 import './App.css';
-import {useState} from 'react';
+import { useState } from 'react';
 
 import { apiKey, endpointCompletion } from './globals/globals';
 import ResponseDisplay from './components/ResponseDisplay';
 
 function App() {
-
-  console.log(apiKey)
 
   const[promptText, setPromptText] = useState('');
   const[responses, setResponses] = useState([]);
@@ -48,7 +46,6 @@ function App() {
       }, ...responses])
     })
     .catch((error) => {
-      console.log(error);
       buttonClicked.disabled = false;
       alert("Error: Couldn't get a response from Open AI.");
     });
@@ -57,16 +54,19 @@ function App() {
   return (
     <div>
       <h1>Jessica's Sentiment AI</h1>
-      <label>Enter a Sentence</label>
-      <textarea value={promptText} onChange={(e) => setPromptText(e.target.value)}></textarea>
-      <button onClick={(e) => submit(e.target)}>Submit</button>
-      <h2>Try out some emojis!</h2>
-      <button onClick={(e) => sendToAi('😃', e.target)}>😃</button>
-      <button onClick={(e) => sendToAi('😢', e.target)}>😢</button>
+      <p className="intro-sentence">Get the sentiment - positive 👍, neutral 😶 or negative 👎 - of a sentence &amp; more!</p>
+      <label for="input-box">Enter a Sentence:</label>
+      <textarea id="input-box" value={promptText} onChange={(e) => setPromptText(e.target.value)}></textarea>
+      <button className="submit-button" onClick={(e) => submit(e.target)}>Submit</button>
+      <h2>You can try out some emojis!</h2>
+      <div className="emoji-buttons">
+        <button onClick={(e) => sendToAi('😃', e.target)}>😃</button>
+        <button onClick={(e) => sendToAi('🥰', e.target)}>🥰</button>
+        <button onClick={(e) => sendToAi('😢', e.target)}>😢</button>
+      </div>
       <div>
-          {/* (moviesToDisplay !== false) && > no need as start with [] */}
           {
-              responses.map(responseFromArray => <ResponseDisplay key={responseFromArray.id} prompt={responseFromArray.promptText} response={responseFromArray.response} />)
+            responses.map(responseFromArray => <ResponseDisplay key={responseFromArray.id} prompt={responseFromArray.promptText} response={responseFromArray.response} />)
           }
       </div>
     </div>

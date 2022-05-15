@@ -1,0 +1,11 @@
+.response {
+    background-color: rgb(212, 212, 212);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 2rem 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.response .label {
+    font-weight: bold;
+}
